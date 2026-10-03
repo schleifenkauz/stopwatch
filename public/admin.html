@@ -5,56 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#151a17">
 	<title>Stopwatch Admin</title>
-	<style>
-		:root {
-			color-scheme: dark;
-			--paper: #151a17;
-			--ink: #eef3ed;
-			--paused: #3578c8;
-			--running: #25834e;
-		}
-		* { box-sizing: border-box; }
-		body {
-			min-height: 100vh;
-			min-height: 100svh;
-			margin: 0;
-			padding: max(28px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(28px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
-			display: grid;
-			place-items: center;
-			background: var(--paper);
-			color: var(--ink);
-			font-family: ui-sans-serif, system-ui, sans-serif;
-		}
-		main {
-			display: grid;
-			justify-items: center;
-			gap: 30px;
-		}
-		button {
-			width: 80px;
-			aspect-ratio: 1;
-			display: grid;
-			place-items: center;
-			padding: 0;
-			border: 0;
-			border-radius: 4px;
-			background: var(--paused);
-			color: white;
-			cursor: pointer;
-			transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
-		}
-		#icon { display: block; width: 36px; height: 36px; }
-		#icon .stop-icon { display: none; }
-		button:hover:not(:disabled) { transform: translateY(-1px); filter: brightness(1.08); }
-		button:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
-		button[aria-pressed="true"] { background: var(--running); }
-		button[aria-pressed="true"] #icon .play-icon { display: none; }
-		button[aria-pressed="true"] #icon .stop-icon { display: block; }
-		button:disabled { cursor: wait; opacity: .65; }
-		@media (prefers-reduced-motion: reduce) {
-			button { transition: none; }
-		}
-	</style>
+	<link rel="stylesheet" href="/admin.css">
 </head>
 <body>
 	<main aria-label="Stopwatch controls">
@@ -66,26 +17,6 @@
 		</button>
 	</main>
 
-	<script>
-		const toggle = document.querySelector('#toggle');
-		let running = false;
-
-		toggle.addEventListener('click', async () => {
-			const action = running ? 'stop' : 'start';
-			toggle.disabled = true;
-
-			try {
-				const response = await fetch('/' + action, { method: 'POST' });
-				if (!response.ok) throw new Error('Request failed');
-				running = !running;
-				toggle.setAttribute('aria-label', running ? 'Stop stopwatch' : 'Start stopwatch');
-				toggle.setAttribute('aria-pressed', String(running));
-			} catch (error) {
-				console.error('Unable to ' + action + ' stopwatch:', error);
-			} finally {
-				toggle.disabled = false;
-			}
-		});
-	</script>
+	<script src="/admin.js" defer></script>
 </body>
 </html>
