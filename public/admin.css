@@ -18,6 +18,7 @@ body {
 	font-family: ui-sans-serif, system-ui, sans-serif;
 }
 main {
+	width: min(100%, 360px);
 	display: grid;
 	justify-items: center;
 	gap: 34px;
@@ -72,6 +73,7 @@ h1 {
 	display: flex;
 	align-items: center;
 	min-width: 0;
+	min-height: 52px;
 	border: 1px solid #435047;
 	border-radius: 4px;
 	background: #1d251f;
@@ -103,6 +105,10 @@ h1 {
 	font-weight: 600;
 }
 #metronome-toggle[aria-pressed="true"] { background: var(--running); }
+@media (max-width: 360px) {
+	.metronome-settings { grid-template-columns: minmax(0, 1fr); }
+	#metronome-toggle { width: 100%; }
+}
 @media (prefers-reduced-motion: reduce) {
 	button { transition: none; }
 }

@@ -3,7 +3,7 @@ body {
 	min-height: 100vh;
 	min-height: 100svh;
 	margin: 0;
-	padding: max(24px, env(safe-area-inset-top)) 20px max(24px, env(safe-area-inset-bottom));
+	padding: max(24px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
 	display: grid;
 	place-items: center;
 	background: #111827;
