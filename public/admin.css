@@ -20,8 +20,9 @@ body {
 main {
 	display: grid;
 	justify-items: center;
-	gap: 30px;
+	gap: 34px;
 }
+section { display: grid; justify-items: center; }
 button {
 	width: 80px;
 	aspect-ratio: 1;
@@ -43,6 +44,65 @@ button[aria-pressed="true"] { background: var(--running); }
 button[aria-pressed="true"] #icon .play-icon { display: none; }
 button[aria-pressed="true"] #icon .stop-icon { display: block; }
 button:disabled { cursor: wait; opacity: .65; }
+.metronome-controls {
+	width: min(100%, 320px);
+	padding-top: 28px;
+	border-top: 1px solid #37443a;
+}
+h1 {
+	margin: 0 0 22px;
+	color: #aab5aa;
+	font-size: .8rem;
+	font-weight: 600;
+	text-transform: uppercase;
+}
+.metronome-controls label {
+	justify-self: start;
+	margin-bottom: 8px;
+	color: #aab5aa;
+	font-size: .8rem;
+}
+.metronome-settings {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 12px;
+	width: 100%;
+}
+.bpm-field {
+	display: flex;
+	align-items: center;
+	min-width: 0;
+	border: 1px solid #435047;
+	border-radius: 4px;
+	background: #1d251f;
+}
+.bpm-field:focus-within { outline: 2px solid var(--ink); outline-offset: 2px; }
+.bpm-field input {
+	width: 100%;
+	min-width: 0;
+	padding: 0 0 0 14px;
+	border: 0;
+	background: transparent;
+	color: var(--ink);
+	font: inherit;
+	font-size: 1.25rem;
+	font-variant-numeric: tabular-nums;
+}
+.bpm-field input:focus { outline: none; }
+.bpm-field input:disabled { opacity: .65; }
+.bpm-field span { padding: 0 14px; color: #aab5aa; font-size: .75rem; font-weight: 600; }
+#metronome-toggle {
+	width: auto;
+	min-width: 148px;
+	height: 52px;
+	aspect-ratio: auto;
+	padding: 0 16px;
+	background: #3578c8;
+	font: inherit;
+	font-size: .9rem;
+	font-weight: 600;
+}
+#metronome-toggle[aria-pressed="true"] { background: var(--running); }
 @media (prefers-reduced-motion: reduce) {
 	button { transition: none; }
 }

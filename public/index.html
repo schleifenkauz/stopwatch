@@ -9,13 +9,29 @@
 </head>
 <body>
 	<main aria-live="polite" aria-atomic="true">
-		<h1>Stopwatch</h1>
-		<div class="readout">
-			<span id="value">00:00</span>
-			<span class="indicator" id="stopped" role="img" aria-label="Stopped" title="Stopped">&#9632;</span>
-			<span class="indicator" id="running-indicator" role="img" aria-label="Running" title="Running" hidden>&#9654;</span>
+		<div>
+			<h1>Stopwatch</h1>
+			<div class="readout">
+				<span id="value">00:00</span>
+				<span class="indicator" id="stopped" role="img" aria-label="Stopped" title="Stopped">&#9632;</span>
+				<span class="indicator" id="running-indicator" role="img" aria-label="Running" title="Running" hidden>&#9654;</span>
+			</div>
 		</div>
+		<section class="metronome-section" aria-labelledby="metronome-heading">
+			<h2 id="metronome-heading">Metronome</h2>
+			<div class="metronome">
+				<div class="metronome-beat">
+					<img src="/metronome_icon_white.png" alt="" class="metronome-icon">
+					<span class="metronome-light" id="metronome-light" role="img" aria-label="Metronome beat" title="Metronome beat"></span>
+				</div>
+				<div class="tempo">
+					<span class="tempo-label">Tempo</span>
+					<span class="bpm"><span id="bpm-value">60</span><span class="bpm-unit"> BPM</span></span>
+				</div>
+			</div>
+		</section>
 	</main>
+	<script src="/websocket.js" defer></script>
 	<script src="/index.js" defer></script>
 </body>
 </html>

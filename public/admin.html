@@ -9,14 +9,28 @@
 </head>
 <body>
 	<main aria-label="Stopwatch controls">
-		<button id="toggle" type="button" aria-label="Start stopwatch" aria-pressed="false">
+		<section class="stopwatch-controls" aria-label="Stopwatch">
+			<button id="toggle" type="button" aria-label="Start stopwatch" aria-pressed="false">
 			<svg id="icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
 				<path class="play-icon" d="M8 5.5V18.5L20 12Z" />
 				<path class="stop-icon" d="M7 7H17V17H7Z" />
 			</svg>
-		</button>
+			</button>
+		</section>
+		<section class="metronome-controls" aria-labelledby="metronome-heading">
+			<h1 id="metronome-heading">Metronome</h1>
+			<label for="bpm">Tempo</label>
+			<div class="metronome-settings">
+				<div class="bpm-field">
+					<input id="bpm" name="bpm" type="number" min="1" max="300" step="1" value="60" required>
+					<span aria-hidden="true">BPM</span>
+				</div>
+				<button id="metronome-toggle" type="button" aria-pressed="false">Start metronome</button>
+			</div>
+		</section>
 	</main>
 
+	<script src="/websocket.js" defer></script>
 	<script src="/admin.js" defer></script>
 </body>
 </html>

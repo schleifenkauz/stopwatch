@@ -11,14 +11,41 @@ let clients = [];
 let time = 0;
 let timer = null;
 let running = false;
+let metronome_running = false;
+let metronome_bpm = 60;
 
 app.use(express.static("public"));
 
 wss.on('connection', (ws) => {
     console.log('New client connected');
     clients.push(ws);
+    ws.isAlive = true;
+    ws.on('pong', () => {
+        ws.isAlive = true;
+    });
+    ws.on('close', () => {
+        clients = clients.filter((client) => client !== ws);
+    });
     ws.send(running ? 'start' : 'stop');
+    if (running) ws.send(time.toString());
+    ws.send(metronome_running
+        ? JSON.stringify({ msg: 'start-metronome', bpm: metronome_bpm })
+        : 'stop-metronome');
 });
+
+const heartbeat = setInterval(() => {
+    clients.forEach((client) => {
+        if (client.readyState !== WebSocket.OPEN) return;
+        if (client.isAlive === false) {
+            client.terminate();
+            return;
+        }
+        client.isAlive = false;
+        client.ping();
+    });
+}, 30000);
+
+server.on('close', () => clearInterval(heartbeat));
 
 app.post('/start', (req, res) => {
     if (!running) {
@@ -51,6 +78,35 @@ app.post('/stop', (req, res) => {
         }
     });
     res.send('Stopping stopwatch');
+});
+
+const startMetronome = (req, res) => {
+    const bpm = Number(req.query.bpm || 60);
+    if (!Number.isInteger(bpm) || bpm < 1 || bpm > 300) {
+        return res.status(400).send('BPM must be an integer between 1 and 300');
+    }
+    metronome_running = true;
+    metronome_bpm = bpm;
+    console.log('Starting metronome with BPM:', bpm);
+    clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify({ msg: "start-metronome", bpm: bpm }));
+        }
+    });
+    res.send('Starting metronome');
+};
+
+app.get('/start-metronome', startMetronome);
+app.post('/start-metronome', startMetronome);
+
+app.post('/stop-metronome', (req, res) => {
+    metronome_running = false;
+    clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send("stop-metronome");
+        }
+    });
+    res.send('Stopping metronome');
 });
 
 const PORT = process.env.PORT || 3000;
